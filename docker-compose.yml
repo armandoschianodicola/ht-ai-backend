@@ -1,0 +1,11 @@
+services:
+  rag-backend:
+    build: ./rag-backend
+    container_name: rag_backend
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./rag-backend/data:/app/data
+    restart: unless-stopped
