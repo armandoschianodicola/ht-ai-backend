@@ -8,5 +8,5 @@ router = APIRouter()
 
 @router.post("/query")
 async def query_rag(request: QueryRequest):
-    answer = run_rag(request.question)
+    answer = await run_rag(request.question)
     return {"answer": answer}

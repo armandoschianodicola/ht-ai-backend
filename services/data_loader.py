@@ -1,4 +1,5 @@
 import os
+import pickle
 from pathlib import Path
 
 import faiss
@@ -7,7 +8,7 @@ import numpy as np
 from config.config import settings
 from factories.embedder_factory import EmbedderFactory
 
-ROOT_DIR = Path(__file__).resolve().parent
+ROOT_DIR = Path(__file__).resolve().parent.parent
 
 
 def load_documents():
@@ -31,6 +32,15 @@ def build_index(embedder_type="openai"):
     current_index.add(embeddings)
 
     print(f"✅ Indexed {len(found_docs)} documents using {embedder_type} embedder.")
+
+    # --- NEW: SAVE TO DISK ---
+    os.makedirs(settings.VECTOR_DB_PATH, exist_ok=True)
+    faiss.write_index(current_index, f"{settings.VECTOR_DB_PATH}/index.faiss")
+
+    metadata = [{"filename": d["filename"], "text": d["text"]} for d in found_docs]
+    with open(f"{settings.VECTOR_DB_PATH}/metadata.pkl", "wb") as f:
+        pickle.dump(metadata, f)
+
     return current_index, found_docs, selected_embedder
 
 

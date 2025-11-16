@@ -1,12 +1,16 @@
-from factories.embedder_factory import EmbedderFactory
-from services.llm import generate_answer
-from services.retriever import search_similar
+from services.data_loader import build_index, search
 
+index = None
+docs = None
+embedder = None
 
-def run_rag(question: str) -> str:
-    selected_embedder = EmbedderFactory.create("openai")
-    query_emb = selected_embedder.embed(question)
-    results = search_similar(query_emb, top_k=3)
+async def preload_rag():
+    global index, docs, embedder
+    if index is None:
+        index, docs, embedder = build_index(embedder_type="openai")
+        print("📦 RAG index preloaded.")
 
-    context = "\n\n".join([r["text"] for r in results])
-    return generate_answer(question, context)
+async def run_rag(query: str):
+    global index, docs, embedder
+    results = search(query, index, docs, embedder)
+    return results[0]["text"] if results else "No results."
