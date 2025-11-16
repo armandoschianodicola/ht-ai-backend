@@ -1,9 +1,10 @@
-import faiss
-import numpy as np
 import os
 import pickle
 
-from utils.config import settings
+import faiss
+import numpy as np
+
+from config.config import settings
 
 INDEX_PATH = f"{settings.VECTOR_DB_PATH}/index.faiss"
 META_PATH = f"{settings.VECTOR_DB_PATH}/metadata.pkl"

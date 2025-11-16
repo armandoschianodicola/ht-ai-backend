@@ -1,8 +1,8 @@
 import numpy as np
 from openai import OpenAI
 
+from config.config import settings
 from interfaces.embedder import EmbedderInterface
-from utils.config import settings
 
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
 

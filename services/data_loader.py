@@ -4,8 +4,8 @@ from pathlib import Path
 import faiss
 import numpy as np
 
+from config.config import settings
 from factories.embedder_factory import EmbedderFactory
-from utils.config import settings
 
 ROOT_DIR = Path(__file__).resolve().parent
 
