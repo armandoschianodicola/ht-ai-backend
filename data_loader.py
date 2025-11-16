@@ -4,10 +4,10 @@ from pathlib import Path
 import faiss
 import numpy as np
 
-from app.factories.embedder_factory import EmbedderFactory
-from app.utils.config import settings
+from factories.embedder_factory import EmbedderFactory
+from utils.config import settings
 
-ROOT_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = Path(__file__).resolve().parent
 
 
 def load_documents():
@@ -15,7 +15,7 @@ def load_documents():
     for filename in os.listdir(os.path.join(ROOT_DIR, settings.DOCS_PATH)):
         if filename.endswith(".txt"):
             with open(os.path.join(settings.DOCS_PATH, filename), "r") as f:
-                found_docs.append({"text": f.read(), "source": filename})
+                found_docs.append({"text": f.read(), "filename": filename})
     return found_docs
 
 def build_index(embedder_type="openai"):
@@ -48,10 +48,15 @@ def search(query, index, docs, embedder, k=3):
 
 if __name__ == "__main__":
     # switch between "openai" and "sentence"
-    index, docs, embedder = build_index(embedder_type="sentence")
+    index, docs, embedder = build_index(embedder_type="openai")
 
     q = "What is this project about?"
     res = search(q, index, docs, embedder)
-    print("🔎 Search results:")
+    print(f"🔎 Search results for query: {q}")
+    for r in res:
+        print(f"→ {r['filename']} ({r['distance']:.4f})")
+    q = "How weather impacts the match?"
+    res = search(q, index, docs, embedder)
+    print(f"🔎 Search results for query: {q}")
     for r in res:
         print(f"→ {r['filename']} ({r['distance']:.4f})")

@@ -1,4 +1,4 @@
-from app.services.embedder.openai_embedder import OpenaiEmbedder
+from services.embedder.openai_embedder import OpenaiEmbedder
 
 
 class EmbedderFactory:

@@ -3,7 +3,7 @@ import numpy as np
 import os
 import pickle
 
-from app.utils.config import settings
+from utils.config import settings
 
 INDEX_PATH = f"{settings.VECTOR_DB_PATH}/index.faiss"
 META_PATH = f"{settings.VECTOR_DB_PATH}/metadata.pkl"
