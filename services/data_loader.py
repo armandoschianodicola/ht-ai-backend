@@ -19,6 +19,7 @@ def load_documents():
                 found_docs.append({"text": f.read(), "filename": filename})
     return found_docs
 
+
 def build_index(embedder_type="openai"):
     """Build FAISS index using the selected embedder."""
     selected_embedder = EmbedderFactory.create(embedder_type)

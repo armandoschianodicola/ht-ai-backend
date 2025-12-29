@@ -12,7 +12,7 @@ async def lifespan(app: FastAPI):
     await preload_rag()
     yield
 
-backend_app = FastAPI(title="HT AI Backend")
+app = FastAPI(title="HT AI Backend", lifespan=lifespan)
 
 # register routes
-backend_app.include_router(rag_router, prefix="/rag")
+app.include_router(rag_router, prefix="/rag")
